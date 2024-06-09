@@ -43,7 +43,7 @@
 				<!-- Sidebar navigation-->
 				<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
 					<ul id="sidebarnav">
-						<div class="sidebarnav-top">
+						<div class="sidebarnav-top scroll-sidebar p-0">
 							<li class="sidebar-item mg-l-4"><a class="sidebar-link"
 								href="./account.jsp" aria-expanded="false"> <span> <i
 										class="fa fa-solid fa-user"></i>
@@ -62,7 +62,7 @@
 								</span> <span class="hide-menu">Thông tin học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./searchStudent.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/searchStudentServlet" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-magnifying-glass"></i>
 								</span> <span class="hide-menu">Tra cứu học sinh</span>
 							</a></li>
@@ -86,10 +86,17 @@
 								</span> <span class="hide-menu">Báo cáo</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./changeRule.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/ChangeRule" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-gear"></i>
 								</span> <span class="hide-menu">Thay đổi quy định</span>
 							</a></li>
+							
+							<li class="sidebar-item"><a class="sidebar-link"
+								href="#" aria-expanded="false"> <span>
+										<i class="fas fa-pen-nib"></i>
+								</span> <span class="hide-menu">Chấm điểm</span>
+							</a></li>
+							
 						</div>
 						<div class="sidebarnav-bottom">
 							<li class="sidebar-item"><a class="sidebar-link"
@@ -98,6 +105,8 @@
 								</span> <span class="hide-menu">Đăng xuất</span>
 							</a></li>
 						</div>
+						
+						
 
 
 					</ul>
@@ -166,14 +175,14 @@
 													<div id="class-semester" class="class-semester-selection mb-3">
 														<label for="search-khoi">Khối: </label> <select
 															id="search-khoi" name="search-khoi">
-															<option></option>
-															<option
+															
+															<option value = "Khối 10"
 																<c:if test="${nameKhoi == 'Khối 10'}">selected</c:if>>Khối
 																10</option>
-															<option
+															<option value = "Khối 11"
 																<c:if test="${nameKhoi == 'Khối 11'}">selected</c:if>>Khối
 																11</option>
-															<option
+															<option value = "Khối 12"
 																<c:if test="${nameKhoi == 'Khối 12'}">selected</c:if>>Khối
 																12</option>
 														</select>
@@ -192,8 +201,7 @@
 
 													<button type="button"
 														class="btn btn-primary list-of-class-btn mt-4">
-														<a
-															href="<%=request.getContextPath()%>/listStudentOfClass.jsp">
+														<a href="<%=request.getContextPath()%>/listStudentOfClassServlet">
 															Xem danh sách học sinh</a>
 													</button>
 												</div>
@@ -229,7 +237,7 @@
 
 												</tbody>
 											</table>
-											<c:if test="${not empty requestScope.messageErrorClass}">
+											<c:if test="${not empty requestScope.messageErrorClassDelete}">
 												<div id="toast">
 													<div class="toast toast--error">
 														<div class="toast__icon">
@@ -237,7 +245,7 @@
 														</div>
 														<div class="toast__body">
 															<h3 class="toast__title">Thất bại</h3>
-															<p class="toast__msg">Thao tác thất bại</p>
+															<p class="toast__msg">Không thể xóa lớp đang học.</p>
 														</div>
 														<div class="toast__close">
 															<i class="fa-solid fa-xmark"></i>
@@ -247,7 +255,7 @@
 											</c:if>
 
 
-											<c:if test="${not empty requestScope.messageInfoClass}">
+											<c:if test="${not empty requestScope.messageInfoClassDelete}">
 												<div id="toast">
 													<div class="toast toast--success">
 														<div class="toast__icon">
@@ -255,7 +263,7 @@
 														</div>
 														<div class="toast__body">
 															<h3 class="toast__title">Thành công</h3>
-															<p class="toast__msg">Thao tác thành công</p>
+															<p class="toast__msg">Xoá lớp không có học sinh thành công.</p>
 														</div>
 														<div class="toast__close">
 															<i class="fa-solid fa-xmark"></i>
@@ -266,18 +274,70 @@
 											
 
 											<c:if test="${not empty requestScope.messageErrorAddClass}">
-												<div class="alert alert-danger">${requestScope.messageErrorAddClass}</div>
+												<div id="toast">
+													<div class="toast toast--error">
+														<div class="toast__icon">
+															<i class="fa-solid  fa-triangle-exclamation"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thất bại</h3>
+															<p class="toast__msg">Tên lớp bị trùng</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
 											</c:if>
 											<c:if test="${not empty requestScope.messageInfoAddClass}">
-												<div class="alert alert-success">${requestScope.messageInfoAddClass}</div>
+												<div id="toast">
+													<div class="toast toast--success">
+														<div class="toast__icon">
+															<i class="fa-solid fa-circle-check"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thành công</h3>
+															<p class="toast__msg">Thêm lớp mới thành công.</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
 											</c:if>
 
 											<c:if
 												test="${not empty requestScope.messageErrorUpdateClass}">
-												<div class="alert alert-danger">${requestScope.messageErrorUpdateClass}</div>
+												<div id="toast">
+													<div class="toast toast--error">
+														<div class="toast__icon">
+															<i class="fa-solid  fa-triangle-exclamation"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thất bại</h3>
+															<p class="toast__msg">Sửa thông tin lớp không thành công. Tên lớp muốn thay đổi đã tồn tại.</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
 											</c:if>
 											<c:if test="${not empty requestScope.messageInfoUpdateClass}">
-												<div class="alert alert-success">${requestScope.messageInfoUpdateClass}</div>
+												<div id="toast">
+													<div class="toast toast--success">
+														<div class="toast__icon">
+															<i class="fa-solid fa-circle-check"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thành công</h3>
+															<p class="toast__msg">Sửa thông tin lớp thành công.</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
 											</c:if>
 										</div>
 									</div>
@@ -294,6 +354,7 @@
 										</header>
 										<form action="<%=request.getContextPath()%>/infoClassServlet">
 											<input type="hidden" name="action" value="/update">
+											<input class="searchByKhoi" type="hidden" name="tenKhoi">
 											<div class="change-className-container">
 
 												<div class="change-className-group">
@@ -319,7 +380,7 @@
 											<div class="change-className-bottom">
 												<div class="change-className-confirm">
 													<button type="button"
-														class="btn btn-primary change-className-cancel-btn">Hủy</button>
+														class="btn btn-primary change-className-cancel-btn btn-cancel">Hủy</button>
 													<button type="submit"
 														class="btn btn-primary change-className-confirm-btn">Xác
 														nhận</button>
@@ -336,6 +397,7 @@
 										</header>
 										<form action="<%=request.getContextPath()%>/infoClassServlet">
 											<input type="hidden" name="action" value="/delete">
+											<input class="searchByKhoi" type="hidden" name="tenKhoi">
 											<div class="remove-class-container">
 
 												<div class="remove-class-group">
@@ -348,7 +410,7 @@
 											<div class="remove-class-bottom">
 												<div class="remove-class-confirm">
 													<button type="button"
-														class="btn btn-primary remove-class-cancel-btn">Hủy</button>
+														class="btn btn-primary remove-class-cancel-btn btn-cancel">Hủy</button>
 													<button type="submit"
 														class="btn btn-primary remove-class-confirm-btn">Xác
 														nhận</button>
@@ -383,14 +445,13 @@
 			<header class="modal-header"> Thêm lớp mới </header>
 			<form action="<%=request.getContextPath()%>/infoClassServlet">
 				<input type="hidden" name="action" value="/insert">
-				<input type="hidden" name="tenKhoi" id="searchByKhoi">
+				<input class="searchByKhoi" type="hidden" name="tenKhoi">
 				<div class="modal-body">
 					<div class="model-input-item">
 						<label for="new-class" class="modal-label">Tên lớp:</label> <input
 							type="text" id="new-class" class="modal-input"
 							placeholder="Tên lớp" name="newClassName">
 					</div>
-
 
 					<div class="model-input-item">
 						<label for="number-of-student" class="modal-label">Sỉ số:</label>
@@ -556,18 +617,29 @@
 	</script>
 	
 	<script>
-        let input = document.getElementById('searchByKhoi')
-        let select = document.getElementById('search-khoi')
-        const options = select.options;
-        select.addEventListener("change", function() {
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].selected) {
-                    input.setAttribute("value", options[i].value)
-                    break;
-                }
-            }
-            
-        })
+	let input = document.querySelectorAll('.searchByKhoi')
+	let select = document.getElementById('search-khoi')
+	const options = select.options;
+	console.log(input)
+	select.addEventListener("change", function() {
+		for (let i = 0; i < options.length; i++) {
+			if (options[i].selected) {
+				for (let e = 0; e < input.length; e++) {
+					input[e].setAttribute("value", options[i].value)
+				}
+				break;
+			}
+		}
+	})
+	for (let i = 0; i < options.length; i++) {
+			if (options[i].selected) {
+				for (let e = 0; e < input.length; e++) {
+					input[e].setAttribute("value", options[i].value)
+				}
+				break;
+			}
+	}
+        
     </script>
 
 </body>

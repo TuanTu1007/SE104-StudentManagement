@@ -17,6 +17,9 @@
 
 </head>
 <body style="background-color: #484848">
+	<%
+	int i = 1;
+	%>
 	<!--  Body Wrapper -->
 	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
 		data-navbarbg="skin6" data-sidebartype="full"
@@ -57,8 +60,9 @@
 								</span> <span class="hide-menu">Thông tin học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./searchStudent.jsp" aria-expanded="false"> <span>
-										<i class="fa fa-solid fa-magnifying-glass"></i>
+								href="<%=request.getContextPath()%>/searchStudentServlet"
+								aria-expanded="false"> <span> <i
+										class="fa fa-solid fa-magnifying-glass"></i>
 								</span> <span class="hide-menu">Tra cứu học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
@@ -79,7 +83,7 @@
 								</span> <span class="hide-menu">Báo cáo</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link active"
-								href="<%=request.getContextPath()%>/changeRule.jsp"
+								href="<%=request.getContextPath()%>/ChangeRule"
 								aria-expanded="false"> <span> <i
 										class="fa fa-solid fa-gear"></i>
 								</span> <span class="hide-menu">Thay đổi quy định</span>
@@ -144,81 +148,139 @@
 							<div class="card-header">Thay đổi quy định</div>
 							<div class="card-body">
 								<div class="datatable-wrapper">
+									<h3 style="text-align: center;">Tiêu chuẩn của các quy
+										định hiện tại</h3>
 
-									<div class="datatable-selection">
-										<label for="change-rule-selection">Loại quy định: </label> <select
-											id="change-rule-selection">
-											<option></option>
-											<option value="QD1">Quy định 1: Thay đổi số tuổi tối
-												thiểu, tuổi tối đa</option>
-											<option value="QD2">Quy định 2: Thay đổi sỉ số tối
-												đa của các lớp</option>
-											<option value="QD3">Quy định 3: Thay đổi điểm đạt
-												môn</option>
-											<option value="QD4">Quy định 4: Thay đổi điểm tối
-												thiểu, điểm tối đa</option>
-										</select>
-
+									<div class="datatable-container">
+										<table id="datatablesChangeRule" class="datatable-table">
+											<thead>
+												<tr>
+													<th data-sortable="true"
+														style="width: 5%; text-align: center;"><a href="#"
+														class="datatable-sorter">STT</a></th>
+													<th data-sortable="true" aria-sort="descending"
+														class="datatable-descending"
+														style="width: 30%; text-align: center;"><a href="#"
+														class="datatable-sorter">Loại quy định</a></th>
+													<th data-sortable="true"
+														style="width: 20%; text-align: center;"><a href="#"
+														class="datatable-sorter">Tiêu chuẩn</a></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="text-align: center;"><%=i++%></td>
+													<td class="changeRuleName-edit" style="padding-left: 20px;">Tuổi
+														tối đa <span> <i
+															class="changeRule-edit-icon fa fa-solid fa-pen-to-square"></i>
+															<i class="removeChangeRule-icon fa fa-solid fa-trash-can"></i></span>
+													</td>
+													<td style="text-align: center;">${CR.tuoiHSToiDa}</td>
+												</tr>
+												<tr>
+													<td style="text-align: center;"><%=i++%></td>
+													<td class="changeRuleName-edit" style="padding-left: 20px;">Tuổi
+														tối thiểu<span> <i
+															class="changeRule-edit-icon fa fa-solid fa-pen-to-square"></i>
+															<i class="removeChangeRule-icon fa fa-solid fa-trash-can"></i></span>
+													</td>
+													<td style="text-align: center;">${CR.tuoiHSToiThieu}</td>
+												</tr>
+												<tr>
+													<td style="text-align: center;"><%=i++%></td>
+													<td class="changeRuleName-edit" style="padding-left: 20px;">Sĩ
+														số tối đa<span> <i
+															class="changeRule-edit-icon1 fa fa-solid fa-pen-to-square"></i>
+															<i class="removeChangeRule-icon fa fa-solid fa-trash-can"></i></span>
+													</td>
+													<td style="text-align: center;">${CR.soLuongHSToiDa}</td>
+												</tr>
+												<tr>
+													<td style="text-align: center;"><%=i++%></td>
+													<td class="changeRuleName-edit" style="padding-left: 20px;">Điểm
+														tối đa<span> <i
+															class="changeRule-edit-icon2 fa fa-solid fa-pen-to-square"></i>
+															<i class="removeChangeRule-icon fa fa-solid fa-trash-can"></i></span>
+													</td>
+													<td style="text-align: center;">${CR.diemToiDa}</td>
+												</tr>
+												<tr>
+													<td style="text-align: center;"><%=i++%></td>
+													<td class="changeRuleName-edit" style="padding-left: 20px;">Điểm
+														tối thiểu<span> <i
+															class="changeRule-edit-icon2 fa fa-solid fa-pen-to-square"></i>
+															<i class="removeChangeRule-icon fa fa-solid fa-trash-can"></i></span>
+													</td>
+													<td style="text-align: center;">${CR.diemToiThieu}</td>
+												</tr>
+												<tr>
+													<td style="text-align: center;"><%=i++%></td>
+													<td class="changeRuleName-edit" style="padding-left: 20px;">Điểm
+														đạt<span> <i
+															class="changeRule-edit-icon3 fa fa-solid fa-pen-to-square"></i>
+															<i class="removeChangeRule-icon fa fa-solid fa-trash-can"></i></span>
+													</td>
+													<td style="text-align: center;">${CR.diemDat}</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
+									<div class="right-sidebar">
+											<div id="QD1" class="rule">
+												<div class="card">
+													<header class="change-rule-top">
+														<h5>Thay đổi số tuổi tối thiểu, tuổi tối đa</h5>
+													</header>
+													<form action="<%=request.getContextPath()%>/ChangeRule">
+														<input type="hidden" name="action" value="/updateTuoi">
+														<div class="change-rule-container">
+
+															<div class="change-rule-group rule1-min-age">
+																<label for="min-age-rule">Nhập tuổi tối thiểu:</label> <select
+																	id="min-age-rule" name="tuoiHSToiThieu">
+																	<option>10</option>
+																	<option>11</option>
+																	<option>12</option>
+																	<option>13</option>
+																	<option>14</option>
+																	<option>15</option>
+																</select>
 
 
-
-									<div class="change-rule-list hidden">
-										<div id="QD1" class="rule">
-
-											<div class="card">
-												<header class="change-rule-top">
-													<h5>Thay đổi số tuổi tối thiểu, tuổi tối đa</h5>
-												</header>
-												<form action="<%=request.getContextPath()%>/ChangeRule">
-													<input type="hidden" name="action" value="/updateTuoi">
-													<div class="change-rule-container">
-
-														<div class="change-rule-group rule1-min-age">
-															<label for="min-age-rule">Nhập tuổi tối thiểu:</label> <select
-																id="min-age-rule" name="tuoiHSToiThieu">
-																<option>10</option>
-																<option>11</option>
-																<option>12</option>
-																<option>13</option>
-																<option>14</option>
-																<option>15</option>
-															</select>
+															</div>
 
 
+															<div class="change-rule-group rule1-max-age">
+																<label for="max-age-rule">Nhập tuổi tối đa:</label> <select
+																	id="max-age-rule" name="tuoiHSToiDa">
+																	<option>20</option>
+																	<option>21</option>
+																	<option>22</option>
+																	<option>23</option>
+																	<option>24</option>
+																	<option>25</option>
+																</select>
+															</div>
 														</div>
 
 
-														<div class="change-rule-group rule1-max-age">
-															<label for="max-age-rule">Nhập tuổi tối đa:</label> <select
-																id="max-age-rule" name="tuoiHSToiDa">
-																<option>20</option>
-																<option>21</option>
-																<option>22</option>
-																<option>23</option>
-																<option>24</option>
-																<option>25</option>
-															</select>
+														<div class="change-rule-bottom">
+															<div class="change-rule-confirm">
+																<button type="button"
+																	class="btn btn-primary change-rule-cancel-btn btn-cancel">Hủy</button>
+																<button type="submit"
+																	class="btn btn-primary change-rule-confirm-btn">Xác
+																	nhận</button>
+															</div>
 														</div>
-													</div>
+													</form>
+												</div>
 
-
-													<div class="change-rule-bottom">
-														<div class="change-rule-confirm">
-															<button type="button"
-																class="btn btn-primary change-rule-cancel-btn">Hủy</button>
-															<button type="submit"
-																class="btn btn-primary change-rule-confirm-btn">Xác
-																nhận</button>
-														</div>
-													</div>
-												</form>
 											</div>
-
 										</div>
-
-
-										<div id="QD2" class="rule">
+										
+										<div class="right-sidebar1">
+											<div id="QD2" class="rule">
 											<div class="card">
 												<header class="change-rule-top">
 													<h5>Thay đổi sỉ số tối đa của các lớp</h5>
@@ -239,7 +301,7 @@
 													<div class="change-rule-bottom">
 														<div class="change-rule-confirm">
 															<button type="button"
-																class="btn btn-primary change-rule-cancel-btn">Hủy</button>
+																class="btn btn-primary change-rule-cancel-btn1 btn-cancel">Hủy</button>
 															<button type="submit"
 																class="btn btn-primary change-rule-confirm-btn">Xác
 																nhận</button>
@@ -248,40 +310,10 @@
 												</form>
 											</div>
 										</div>
-
-										<div id="QD3" class="rule">
-											<div class="card">
-												<header class="change-rule-top">
-													<h5>Thay đổi điểm đạt môn</h5>
-												</header>
-												<form action="<%=request.getContextPath()%>/ChangeRule">
-													<input type="hidden" name="action" value="/updateDiemDat">
-													<div class="change-rule-container">
-														<div class="change-rule-group rule5-point">
-															<label for="min-point">Nhập điểm đạt môn học:</label> <select
-																id="min-point" name="pointPass">
-																<option>3</option>
-																<option>4</option>
-																<option>5</option>
-															</select>
-														</div>
-													</div>
-
-													<div class="change-rule-bottom">
-														<div class="change-rule-confirm">
-															<button type="button"
-																class="btn btn-primary change-rule-cancel-btn">Hủy</button>
-															<button type="submit"
-																class="btn btn-primary change-rule-confirm-btn">Xác
-																nhận</button>
-														</div>
-													</div>
-												</form>
-											</div>
 										</div>
-										<div id="QD4" class="rule">
-
-											<div class="card">
+										
+										<div class="right-sidebar2">
+										<div class="card">
 												<header class="change-rule-top">
 													<h5>Thay đổi điểm tối thiểu, điểm tối đa</h5>
 												</header>
@@ -314,7 +346,7 @@
 													<div class="change-rule-bottom">
 														<div class="change-rule-confirm">
 															<button type="button"
-																class="btn btn-primary change-rule-cancel-btn">Hủy</button>
+																class="btn btn-primary change-rule-cancel-btn2 btn-cancel">Hủy</button>
 															<button type="submit"
 																class="btn btn-primary change-rule-confirm-btn">Xác
 																nhận</button>
@@ -322,38 +354,45 @@
 													</div>
 												</form>
 											</div>
-
 										</div>
+										
+										<div class="right-sidebar3">
+										<div id="QD3" class="rule">
+											<div class="card">
+												<header class="change-rule-top">
+													<h5>Thay đổi điểm đạt môn</h5>
+												</header>
+												<form action="<%=request.getContextPath()%>/ChangeRule">
+													<input type="hidden" name="action" value="/updateDiemDat">
+													<div class="change-rule-container">
+														<div class="change-rule-group rule5-point">
+															<label for="min-point">Nhập điểm đạt môn học:</label> <select
+																id="min-point" name="pointPass">
+																<option>3</option>
+																<option>4</option>
+																<option>5</option>
+															</select>
+														</div>
+													</div>
+
+													<div class="change-rule-bottom">
+														<div class="change-rule-confirm">
+															<button type="button"
+																class="btn btn-primary change-rule-cancel-btn3 btn-cancel">Hủy</button>
+															<button type="submit"
+																class="btn btn-primary change-rule-confirm-btn">Xác
+																nhận</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+										</div>
+
+
 									</div>
 								</div>
 							</div>
-							<c:if test="${not empty requestScope.messageErrorUpdateAge}">
-								<div class="alert alert-danger">${requestScope.messageErrorUpdateAge}</div>
-							</c:if>
-							<c:if test="${not empty requestScope.messageInfoUpdateAge}">
-								<div class="alert alert-success">${requestScope.messageInfoUpdateAge}</div>
-							</c:if>
-
-							<c:if test="${not empty requestScope.messageErrorUpdateSiSo}">
-								<div class="alert alert-danger">${requestScope.messageErrorUpdateSiSo}</div>
-							</c:if>
-							<c:if test="${not empty requestScope.messageInfoUpdateSiSo}">
-								<div class="alert alert-success">${requestScope.messageInfoUpdateSiSo}</div>
-							</c:if>
-
-							<c:if test="${not empty requestScope.messageErrorUpdateDiemDat}">
-								<div class="alert alert-danger">${requestScope.messageErrorUpdateDiemDat}</div>
-							</c:if>
-							<c:if test="${not empty requestScope.messageInfoUpdateDiemDat}">
-								<div class="alert alert-success">${requestScope.messageInfoUpdateDiemDat}</div>
-							</c:if>
-
-							<c:if test="${not empty requestScope.messageErrorUpdateDiem}">
-								<div class="alert alert-danger">${requestScope.messageErrorUpdateDiem}</div>
-							</c:if>
-							<c:if test="${not empty requestScope.messageInfoUpdateDiem}">
-								<div class="alert alert-success">${requestScope.messageInfoUpdateDiem}</div>
-							</c:if>
 						</div>
 					</div>
 				</div>
@@ -374,6 +413,85 @@
 	<script src="./js/app.js"></script>
 	<script src="./js/changeRule.js"></script>
 	<script src="./js/pagination.js"></script>
+
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	    const editIcons = document.querySelectorAll('.changeRule-edit-icon');
+	    const editIcons1 = document.querySelectorAll('.changeRule-edit-icon1');
+	    const editIcons2 = document.querySelectorAll('.changeRule-edit-icon2');
+	    const editIcons3 = document.querySelectorAll('.changeRule-edit-icon3');
+	    const rightSidebars = document.querySelectorAll('.right-sidebar');
+	    const rightSidebars1 = document.querySelectorAll('.right-sidebar1');
+	    const rightSidebars2 = document.querySelectorAll('.right-sidebar2');
+	    const rightSidebars3 = document.querySelectorAll('.right-sidebar3');
+	    const cancelButtons = document.querySelectorAll('.change-rule-cancel-btn');
+	    const cancelButtons1 = document.querySelectorAll('.change-rule-cancel-btn1');
+	    const cancelButtons2 = document.querySelectorAll('.change-rule-cancel-btn2');
+	    const cancelButtons3 = document.querySelectorAll('.change-rule-cancel-btn3');
+
+	    editIcons.forEach(function(editIcon) {
+	        editIcon.addEventListener('click', function() {
+	            rightSidebars.forEach(function(rightSidebar) {
+	                rightSidebar.classList.toggle('show-sidebar');
+	            });
+	        });
+	    });
+	    
+	    editIcons1.forEach(function(editIcon) {
+	        editIcon.addEventListener('click', function() {
+	            rightSidebars1.forEach(function(rightSidebar) {
+	                rightSidebar.classList.toggle('show-sidebar1');
+	            });
+	        });
+	    });
+	    
+	    editIcons2.forEach(function(editIcon) {
+	        editIcon.addEventListener('click', function() {
+	            rightSidebars2.forEach(function(rightSidebar) {
+	                rightSidebar.classList.toggle('show-sidebar2');
+	            });
+	        });
+	    });
+	    
+	    editIcons3.forEach(function(editIcon) {
+	        editIcon.addEventListener('click', function() {
+	            rightSidebars3.forEach(function(rightSidebar) {
+	                rightSidebar.classList.toggle('show-sidebar3');
+	            });
+	        });
+	    });
+
+	    cancelButtons.forEach(function(cancelButton) {
+	        cancelButton.addEventListener('click', function() {
+	            rightSidebars.forEach(function(rightSidebar) {
+	                rightSidebar.classList.remove('show-sidebar');
+	            });
+	        });
+	    });
+	    
+	    cancelButtons1.forEach(function(cancelButton) {
+	        cancelButton.addEventListener('click', function() {
+	            rightSidebars1.forEach(function(rightSidebar) {
+	                rightSidebar.classList.remove('show-sidebar1');
+	            });
+	        });
+	    });
+	    cancelButtons2.forEach(function(cancelButton) {
+	        cancelButton.addEventListener('click', function() {
+	            rightSidebars2.forEach(function(rightSidebar) {
+	                rightSidebar.classList.remove('show-sidebar2');
+	            });
+	        });
+	    });
+	    cancelButtons3.forEach(function(cancelButton) {
+	        cancelButton.addEventListener('click', function() {
+	            rightSidebars3.forEach(function(rightSidebar) {
+	                rightSidebar.classList.remove('show-sidebar3');
+	            });
+	        });
+	    });
+	});
+	</script>
 
 </body>
 </html>

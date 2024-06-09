@@ -58,7 +58,7 @@
 								</span> <span class="hide-menu">Thông tin học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./searchStudent.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/searchStudentServlet" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-magnifying-glass"></i>
 								</span> <span class="hide-menu">Tra cứu học sinh</span>
 							</a></li>
@@ -79,7 +79,7 @@
 								</span> <span class="hide-menu">Báo cáo</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./changeRule.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/ChangeRule" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-gear"></i>
 								</span> <span class="hide-menu">Thay đổi quy định</span>
 							</a></li>
@@ -225,7 +225,7 @@
 				</div>
 
 				<footer class="modal-footer">
-					<button type="button" class="btn btn-primary cancel-edit-pass-btn">Hủy</button>
+					<button type="button" class="btn btn-primary cancel-edit-pass-btn btn-cancel">Hủy</button>
 					<button type="submit" class="btn btn-primary confirm-edit-pass-btn">Xác
 						nhận</button>
 				</footer>

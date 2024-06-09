@@ -21,13 +21,16 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import Dao.InfoStudentsDao;
+import Dao.infoClassDao;
 import Model.HocSinh;
+import Model.Lop;
 import Model.TraCuuHocSinh;
 
 @WebServlet("/InfoStudentsServlet")
 public class InfoStudentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private InfoStudentsDao infoStudentsDao;
+	private infoClassDao InfoClassDao;
 	@Resource(name="jdbc/student_management")
 	private DataSource datasource;
 	
@@ -36,6 +39,7 @@ public class InfoStudentsServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		infoStudentsDao = new InfoStudentsDao(datasource);
+		InfoClassDao = new infoClassDao(datasource);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -84,14 +88,16 @@ public class InfoStudentsServlet extends HttpServlet {
 		String name = request.getParameter("search-student-name");
 		String nameClass = request.getParameter("search-student-class");
 		List<TraCuuHocSinh> DSTCHS = infoStudentsDao.selectStudent(name, nameClass);
+		List<Lop> DSL = InfoClassDao.selectAllClass();
 		request.setAttribute("DSTCHS", DSTCHS);
 		request.setAttribute("searchStudentName", name);
+		
+		request.setAttribute("DSL", DSL);
 		request.setAttribute("searchStudentClass", nameClass);
 		if (DSTCHS.isEmpty()) {
 		    request.setAttribute("messageerror", "Không tìm thấy học sinh.");
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("searchStudent.jsp");
-		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/searchStudent.jsp");
 		dispatcher.forward(request, response);
 	}
 	
@@ -109,22 +115,25 @@ public class InfoStudentsServlet extends HttpServlet {
 		boolean isvalidEmail = infoStudentsDao.checkEmail(hs);
 		if (isvalid && isvalidEmail) {
 			if (name.equals("")) {
-				request.setAttribute("messageerror", "Thêm học sinh không thành công. Chưa nhập tên học sinh.");
+				request.setAttribute("messagEerrorName", "Thêm học sinh không thành công. Chưa nhập tên học sinh.");
 			} else if (gender == null) {
-				request.setAttribute("messageerror", "Thêm học sinh không thành công. Chưa nhập giới tính.");
+				request.setAttribute("messageErrorGender", "Thêm học sinh không thành công. Chưa nhập giới tính.");
 			} else if (address.equals("")) {
-				request.setAttribute("messageerror", "Thêm học sinh không thành công. Chưa nhập địa chỉ.");
+				request.setAttribute("messageErrorAddress", "Thêm học sinh không thành công. Chưa nhập địa chỉ.");
 			} else if (email.equals("")) {
-				request.setAttribute("messageerror", "Thêm học sinh không thành công. Chưa nhập email.");
+				request.setAttribute("messageErrorEmail", "Thêm học sinh không thành công. Chưa nhập email.");
 			} else {
 				infoStudentsDao.insertStudent(hs);
 				request.setAttribute("messageInfo", "Thêm học sinh thành công.");
 			}
 		} else if (!isvalid){
-			request.setAttribute("messageerror", "Thêm học sinh không thành công. Tuổi không hợp lệ.");
+			request.setAttribute("messageErrorAge", "Thêm học sinh không thành công. Tuổi không hợp lệ.");
 		} else if (!isvalidEmail) {
-			request.setAttribute("messageerror", "Thêm học sinh không thành công. Email đã tồn tại.");
+			request.setAttribute("messageErrorEmailExist", "Thêm học sinh không thành công. Email đã tồn tại.");
 		}
+		List<HocSinh> DSHS = infoStudentsDao.selectAllStudent();
+		request.setAttribute("DSHS", DSHS);
+		request.setAttribute("messageerror", "");
 		request.getRequestDispatcher("/infoStudent.jsp").forward(request, response);
 	}
 }

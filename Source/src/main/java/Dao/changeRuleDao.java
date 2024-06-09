@@ -11,7 +11,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import Model.ChangeRule;
-import Model.Mon;
 
 public class changeRuleDao {
 	
@@ -25,6 +24,26 @@ public class changeRuleDao {
 		if(conn != null) conn.close();
 		if(stmt != null) stmt.close();
 		if(rs != null) rs.close();
+	}
+	
+	public ChangeRule renderThamSo() throws ClassNotFoundException {
+	    ChangeRule c = null;
+	    try (Connection connection = datasource.getConnection();
+	            Statement statement = connection.createStatement();
+	            ResultSet rs = statement.executeQuery("select * from thamso")) {
+	        if (rs.next()) {
+	        	int tuoiHSToiDa = rs.getInt("TuoiHSToiDa");
+	            int tuoiHSToiThieu = rs.getInt("TuoiHSToiThieu");
+	            int soLuongHSToiDa = rs.getInt("SoLuongHSToiDa");
+	            int diemToiDa = rs.getInt("DiemToiDa");
+	            int diemToiThieu = rs.getInt("DiemToiThieu");
+	            int diemDat = rs.getInt("DiemDat");
+	            c = new ChangeRule(tuoiHSToiDa, tuoiHSToiThieu, soLuongHSToiDa, diemToiDa, diemToiThieu, diemDat);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return c;
 	}
 
     public boolean updateTuoiToiThieuToiDa(int tuoiThieu, int tuoiDa) throws SQLException {

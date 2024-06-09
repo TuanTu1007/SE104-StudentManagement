@@ -111,6 +111,8 @@ public class InfoSubjectServlet extends HttpServlet {
 	    } else {
 	        request.setAttribute("messageErrorAddSubject", "Tên môn bị trùng");
 	    }
+		List<Mon> DSMH = InfoSubjectDao.selectAllSubject();
+		request.setAttribute("DSMH", DSMH);
 		request.getRequestDispatcher("/subject.jsp").forward(request, response);
 	}
 	
@@ -127,6 +129,8 @@ public class InfoSubjectServlet extends HttpServlet {
 	    } else {
 	        request.setAttribute("messageErrorUpdateSubject", "Tên môn đã tồn tại.");
 	    }
+	    List<Mon> DSMH = InfoSubjectDao.selectAllSubject();
+		request.setAttribute("DSMH", DSMH);
 	    request.getRequestDispatcher("/subject.jsp").forward(request, response);
 	}
 	
@@ -140,6 +144,8 @@ public class InfoSubjectServlet extends HttpServlet {
 	    } else {
 	        request.setAttribute("messageErrorDeleteSubject", "Không thể xóa môn đang học.");
 	    }
+	    List<Mon> DSMH = InfoSubjectDao.selectAllSubject();
+		request.setAttribute("DSMH", DSMH);
 	    request.getRequestDispatcher("/subject.jsp").forward(request, response);
 	}
 	

@@ -63,7 +63,7 @@
 								</span> <span class="hide-menu">Thông tin học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./searchStudent.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/searchStudentServlet" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-magnifying-glass"></i>
 								</span> <span class="hide-menu">Tra cứu học sinh</span>
 							</a></li>
@@ -87,8 +87,9 @@
 								</span> <span class="hide-menu">Báo cáo</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./changeRule.jsp" aria-expanded="false"> <span>
-										<i class="fa fa-solid fa-gear"></i>
+								href="<%=request.getContextPath()%>/ChangeRule"
+								aria-expanded="false"> <span> <i
+										class="fa fa-solid fa-gear"></i>
 								</span> <span class="hide-menu">Thay đổi quy định</span>
 							</a></li>
 						</div>
@@ -163,45 +164,31 @@
 												action="<%=request.getContextPath()%>/listStudentOfClassServlet">
 												<input type="hidden" name="action" value="/show">
 												<div class="datatable-top-group">
-													<label for="search-Class">Tên lớp: </label> <select
-														class="search-class" name="search-lop">
-														<option></option>
-														<option name="className"
-															<c:if test="${searchClass == '10A1'}">selected</c:if>>10A1</option>
-														<option name="className"
-															<c:if test="${searchClass == '10A2'}">selected</c:if>>10A2</option>
-														<option name="className"
-															<c:if test="${searchClass == '10A3'}">selected</c:if>>10A3</option>
-														<option name="className"
-															<c:if test="${searchClass == '10A4'}">selected</c:if>>10A4</option>
-														<option name="className"
-															<c:if test="${searchClass == '11A1'}">selected</c:if>>11A1</option>
-														<option name="className"
-															<c:if test="${searchClass == '11A2'}">selected</c:if>>11A2</option>
-														<option name="className"
-															<c:if test="${searchClass == '11A3'}">selected</c:if>>11A3</option>
-														<option name="className"
-															<c:if test="${searchClass == '12A1'}">selected</c:if>>12A1</option>
-														<option name="className"
-															<c:if test="${searchClass == '12A2'}">selected</c:if>>12A2</option>
+													<label for="search-Class" style="margin-right: 20px;">Tên
+														lớp: </label> <select class="search-class" name="search-lop"
+														style="margin-bottom: 50px;">
+														<c:forEach var="c" items="${DSL}">
+															<option <c:if test="${searchClass == c.tenLop}">selected</c:if>>${c.tenLop}</option>
+														</c:forEach>
 
 													</select>
 												</div>
 
+
+
+												<div class="datatable-top-group">
+													<p class="">
+														Sỉ số:
+														<c:out value="${siso}" />
+													</p>
+												</div>
 												<div class="add-class">
 													<button type="submit"
-														class="btn btn-primary show-list-student-of-class">Xem</button>
+														class="btn btn-primary show-list-student-of-class mb-1">Xem</button>
 												</div>
-											</form>
-
-											<div class="datatable-top-group">
-												<p class="mt-2">
-													Sỉ số:
-													<c:out value="${siso}" />
-
-												</p>
-											</div>
 										</div>
+
+										</form>
 										<div class="datatable-container">
 											<table id="datatablesListStudent" class="datatable-table">
 												<thead>
@@ -249,11 +236,40 @@
 											</button>
 										</div>
 
-										<c:if test="${not empty requestScope.messageErrorInsertToClass}">
-											<div class="alert alert-danger">${requestScope.messageErrorInsertToClass}</div>
+										<c:if
+											test="${not empty requestScope.messageErrorInsertToClass}">
+											<div id="toast">
+												<div class="toast toast--error">
+													<div class="toast__icon">
+														<i class="fa-solid fa-triangle-exclamation"></i>
+													</div>
+													<div class="toast__body">
+														<h3 class="toast__title">Thất bại</h3>
+														<p class="toast__msg">Thêm học sinh thất bại.</p>
+													</div>
+													<div class="toast__close">
+														<i class="fa-solid fa-xmark"></i>
+													</div>
+												</div>
+											</div>
 										</c:if>
-										<c:if test="${not empty requestScope.messageInfoInsertToClass}">
-											<div class="alert alert-success">${requestScope.messageInfoInsertToClass}</div>
+										<c:if
+											test="${not empty requestScope.messageInfoInsertToClass}">
+											<div id="toast">
+												<div class="toast toast--success">
+													<div class="toast__icon">
+														<i class="fa-solid fa-circle-check"></i>
+													</div>
+													<div class="toast__body">
+														<h3 class="toast__title">Thành công</h3>
+														<p class="toast__msg">Thêm học sinh vào lớp thành
+															công.</p>
+													</div>
+													<div class="toast__close">
+														<i class="fa-solid fa-xmark"></i>
+													</div>
+												</div>
+											</div>
 										</c:if>
 
 									</div>

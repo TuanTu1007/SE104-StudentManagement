@@ -12,7 +12,8 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@v5.3.0/dist/css/bootstrap.min.css">
-<style <%@ include file="./css/style.css" %>></style>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/style.css">
 
 </head>
 <body style="background-color: #484848">
@@ -61,7 +62,7 @@
 								</span> <span class="hide-menu">Thông tin học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./searchStudent.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/searchStudentServlet" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-magnifying-glass"></i>
 								</span> <span class="hide-menu">Tra cứu học sinh</span>
 							</a></li>
@@ -85,7 +86,7 @@
 								</span> <span class="hide-menu">Báo cáo</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./changeRule.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/ChangeRule" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-gear"></i>
 								</span> <span class="hide-menu">Thay đổi quy định</span>
 							</a></li>
@@ -154,6 +155,107 @@
 								<div class="card-body subject-list-data">
 
 									<div class="datatable-wrapper">
+										<c:if test="${not empty requestScope.messageErrorAddSubject}">
+												<div id="toast">
+													<div class="toast toast--error">
+														<div class="toast__icon">
+															<i class="fa-solid  fa-triangle-exclamation"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thất bại</h3>
+															<p class="toast__msg">Tên môn đã tồn tại</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
+											</c:if>
+										<c:if test="${not empty requestScope.messageInfoAddSubject}">
+											<div id="toast">
+												<div class="toast toast--success">
+													<div class="toast__icon">
+														<i class="fa-solid fa-circle-check"></i>
+													</div>
+													<div class="toast__body">
+														<h3 class="toast__title">Thành công</h3>
+														<p class="toast__msg">Thêm môn mới thành công.</p>
+													</div>
+													<div class="toast__close">
+														<i class="fa-solid fa-xmark"></i>
+													</div>
+												</div>
+											</div>
+										</c:if>
+
+										<c:if test="${not empty requestScope.messageErrorDeleteSubject}">
+												<div id="toast">
+													<div class="toast toast--error">
+														<div class="toast__icon">
+															<i class="fa-solid  fa-triangle-exclamation"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thất bại</h3>
+															<p class="toast__msg">Không thể xóa môn đang học.</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
+											</c:if>
+										<c:if
+											test="${not empty requestScope.messageInfoDeleteSubject}">
+											<div id="toast">
+												<div class="toast toast--success">
+													<div class="toast__icon">
+														<i class="fa-solid fa-circle-check"></i>
+													</div>
+													<div class="toast__body">
+														<h3 class="toast__title">Thành công</h3>
+														<p class="toast__msg">Xóa môn không có dữ liệu thành
+															công.</p>
+													</div>
+													<div class="toast__close">
+														<i class="fa-solid fa-xmark"></i>
+													</div>
+												</div>
+											</div>
+										</c:if>
+
+										<c:if test="${not empty requestScope.messageErrorUpdateSubject}">
+												<div id="toast">
+													<div class="toast toast--error">
+														<div class="toast__icon">
+															<i class="fa-solid  fa-triangle-exclamation"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Thất bại</h3>
+															<p class="toast__msg">Tên môn đã tồn tại.</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
+											</c:if>
+										<c:if
+											test="${not empty requestScope.messageInfoUpdateSubject}">
+											<div id="toast">
+												<div class="toast toast--success">
+													<div class="toast__icon">
+														<i class="fa-solid fa-circle-check"></i>
+													</div>
+													<div class="toast__body">
+														<h3 class="toast__title">Thành công</h3>
+														<p class="toast__msg">Sửa tên môn thành công.</p>
+													</div>
+													<div class="toast__close">
+														<i class="fa-solid fa-xmark"></i>
+													</div>
+												</div>
+											</div>
+										</c:if>
 
 										<div class="add-subject">
 											<button class="btn btn-primary add-subject-btn">Thêm
@@ -189,26 +291,7 @@
 											</table>
 										</div>
 									</div>
-									<c:if test="${not empty requestScope.messageErrorAddSubject}">
-										<div class="alert alert-danger">${requestScope.messageErrorAddSubject}</div>
-									</c:if>
-									<c:if test="${not empty requestScope.messageInfoAddSubject}">
-										<div class="alert alert-success">${requestScope.messageInfoAddSubject}</div>
-									</c:if>
-									
-									<c:if test="${not empty requestScope.messageErrorDeleteSubject}">
-										<div class="alert alert-danger">${requestScope.messageErrorDeleteSubject}</div>
-									</c:if>
-									<c:if test="${not empty requestScope.messageInfoDeleteSubject}">
-										<div class="alert alert-success">${requestScope.messageInfoDeleteSubject}</div>
-									</c:if>
-									
-									<c:if test="${not empty requestScope.messageErrorUpdateSubject}">
-										<div class="alert alert-danger">${requestScope.messageErrorUpdateSubject}</div>
-									</c:if>
-									<c:if test="${not empty requestScope.messageInfoUpdateSubject}">
-										<div class="alert alert-success">${requestScope.messageInfoUpdateSubject}</div>
-									</c:if>
+
 
 								</div>
 								<div class="card-body change-subjectName hidden">
@@ -232,7 +315,6 @@
 												<div class="change-subjectName-group">
 													<label for="numberSubject-input">Nhập hệ số:</label> <select
 														class="numberSubject-input" name="number">
-														<option></option>
 														<option name="number"
 															<c:if test="${number == '1'}">selected</c:if>>1</option>
 														<option name="number"
@@ -245,7 +327,7 @@
 											<div class="change-subjectName-bottom">
 												<div class="change-subjectName-confirm">
 													<button type="button"
-														class="btn btn-primary change-subjectName-cancel-btn">Hủy</button>
+														class="btn btn-primary change-subjectName-cancel-btn btn-cancel">Hủy</button>
 													<button type="submit"
 														class="btn btn-primary change-subjectName-confirm-btn">Xác
 														nhận</button>
@@ -275,7 +357,7 @@
 											<div class="remove-subject-bottom">
 												<div class="remove-subject-confirm">
 													<button type="button"
-														class="btn btn-primary remove-subject-cancel-btn">Hủy</button>
+														class="btn btn-primary remove-subject-cancel-btn btn-cancel">Hủy</button>
 													<button type="submit"
 														class="btn btn-primary remove-subject-confirm-btn">Xác
 														nhận</button>
@@ -321,7 +403,6 @@
 					<div class="model-input-item">
 						<label for="number-of-subject" class="modal-label">Hệ số:</label>
 						<select class="number-of-subject" name="heSo">
-							<option></option>
 							<option name="heSo" <c:if test="${heSo == '1'}">selected</c:if>>1</option>
 							<option name="heSo" <c:if test="${heSo == '2'}">selected</c:if>>2</option>
 						</select>
@@ -331,7 +412,7 @@
 
 				<footer class="modal-footer">
 					<button type="button"
-						class="btn btn-primary cancel-add-subject-btn">Hủy</button>
+						class="btn btn-primary cancel-add-subject-btn btn-cancel">Hủy</button>
 					<button type="submit"
 						class="btn btn-primary confirm-add-subject-btn">Xác nhận</button>
 				</footer>

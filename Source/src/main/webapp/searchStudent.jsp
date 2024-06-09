@@ -60,7 +60,7 @@
 								</span> <span class="hide-menu">Thông tin học sinh</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link active"
-								href="<%=request.getContextPath()%>/InfoSubjectServlet"
+								href="<%=request.getContextPath()%>/searchStudentServlet"
 								aria-expanded="false"> <span> <i
 										class="fa fa-solid fa-magnifying-glass"></i>
 								</span> <span class="hide-menu">Tra cứu học sinh</span>
@@ -83,7 +83,7 @@
 								</span> <span class="hide-menu">Báo cáo</span>
 							</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="./changeRule.jsp" aria-expanded="false"> <span>
+								href="<%=request.getContextPath()%>/ChangeRule" aria-expanded="false"> <span>
 										<i class="fa fa-solid fa-gear"></i>
 								</span> <span class="hide-menu">Thay đổi quy định</span>
 							</a></li>
@@ -164,26 +164,10 @@
 
 												<label for="search-student-class">Tên lớp: </label> <select
 													class="search-student-class p-1" name="search-student-class">
-													<option></option>
+													<c:forEach var="c" items="${DSL}">
 													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '10A1'}">selected</c:if>>10A1</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '10A2'}">selected</c:if>>10A2</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '10A3'}">selected</c:if>>10A3</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '10A4'}">selected</c:if>>10A4</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '11A1'}">selected</c:if>>11A1</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '11A2'}">selected</c:if>>11A2</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '11A3'}">selected</c:if>>11A3</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '12A1'}">selected</c:if>>12A1</option>
-													<option name="search-student-class"
-														<c:if test="${searchStudentClass == '12A2'}">selected</c:if>>12A2</option>
-
+														<c:if test="${searchStudentClass == c.tenLop}">selected</c:if>>${c.tenLop}</option>
+													</c:forEach>
 												</select>
 											</div>
 
@@ -229,7 +213,20 @@
 									</div>
 								</div>
 								<c:if test="${not empty requestScope.messageerror}">
-									<div class="alert alert-danger">${requestScope.messageerror}</div>
+									<div id="toast">
+													<div class="toast toast--error">
+														<div class="toast__icon">
+															<i class="fa-solid fa-triangle-exclamation"></i>
+														</div>
+														<div class="toast__body">
+															<h3 class="toast__title">Cảnh báo</h3>
+															<p class="toast__msg">Không tìm thấy học sinh.</p>
+														</div>
+														<div class="toast__close">
+															<i class="fa-solid fa-xmark"></i>
+														</div>
+													</div>
+												</div>
 								</c:if>
 							</div>
 						</div>

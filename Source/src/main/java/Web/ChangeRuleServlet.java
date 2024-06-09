@@ -17,6 +17,7 @@ import Dao.changeRuleDao;
 import Dao.infoSubjectDao;
 import Model.ChangeRule;
 import Model.Mon;
+import Model.TraCuuKhoi;
 
 @WebServlet("/ChangeRule")
 public class ChangeRuleServlet extends HttpServlet {
@@ -69,7 +70,21 @@ public class ChangeRuleServlet extends HttpServlet {
                 e.printStackTrace();
             }
             break;
+		default:
+			try {
+				renderThamSo(request, response);
+			} catch (ClassNotFoundException | ServletException | IOException | SQLException e) {
+				e.printStackTrace();
+			}
+			break;
 		}
+	}
+	
+	private void renderThamSo(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException, ClassNotFoundException, SQLException {
+		ChangeRule cr = ChangeRuleDao.renderThamSo();
+		request.setAttribute("CR", cr);
+	    request.getRequestDispatcher("/changeRule.jsp").forward(request, response);
 	}
 		
 	private void updateTuoi(HttpServletRequest request, HttpServletResponse response) 
@@ -84,6 +99,8 @@ public class ChangeRuleServlet extends HttpServlet {
 			request.setAttribute("messageErrorUpdateAge",
 					"Thay đổi thất bại.");
 		}
+		ChangeRule cr = ChangeRuleDao.renderThamSo();
+		request.setAttribute("CR", cr);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/changeRule.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -98,6 +115,8 @@ public class ChangeRuleServlet extends HttpServlet {
 			request.setAttribute("messageErrorUpdateSiSo",
 					"Thay đổi thất bại.");
 		}
+		ChangeRule cr = ChangeRuleDao.renderThamSo();
+		request.setAttribute("CR", cr);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/changeRule.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -112,6 +131,8 @@ public class ChangeRuleServlet extends HttpServlet {
 			request.setAttribute("messageErrorUpdateDiemDat",
 					"Thay đổi thất bại.");
 		}
+		ChangeRule cr = ChangeRuleDao.renderThamSo();
+		request.setAttribute("CR", cr);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/changeRule.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -127,6 +148,8 @@ public class ChangeRuleServlet extends HttpServlet {
 			request.setAttribute("messageErrorUpdateDiem",
 					"Thay đổi thất bại.");
 		}
+        ChangeRule cr = ChangeRuleDao.renderThamSo();
+		request.setAttribute("CR", cr);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/changeRule.jsp");
 		dispatcher.forward(request, response);
 	}

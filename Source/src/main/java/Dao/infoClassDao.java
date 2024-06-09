@@ -176,37 +176,52 @@ public class infoClassDao {
 	}
 
 	public boolean deleteClass(String nameClass) throws ClassNotFoundException {
-		String SELECT_CLASS = "select * from lop";
-		String DELETE_CLASS = "delete from lop where MaLop = ?";
-		boolean isvalid = false;
-		try (Connection connection = datasource.getConnection();
-				Statement stmt = connection.createStatement();
-				PreparedStatement statement = connection.prepareStatement(DELETE_CLASS);
-				ResultSet rs = stmt.executeQuery(SELECT_CLASS)) {
-			String currentClassName = "";
-			String currentClassId = "";
-			while (rs.next()) {
-				currentClassName = rs.getString(2);
-				if (currentClassName.equalsIgnoreCase(nameClass.trim())) {
-					currentClassId = rs.getString(1);
-				}
-			}
+	    String SELECT_CLASS = "SELECT MaLop FROM LOP WHERE TenLop = ?";
+	    String COUNT_STUDENTS = "SELECT COUNT(*) FROM QUATRINH WHERE MaLop = ?";
+	    String DELETE_CLASS = "DELETE FROM LOP WHERE MaLop = ?";
+	    boolean isvalid = false;
 
-			statement.setString(1, currentClassId);
-			int rowsAffected = statement.executeUpdate();
+	    try (Connection connection = datasource.getConnection();
+	         PreparedStatement selectStmt = connection.prepareStatement(SELECT_CLASS);
+	         PreparedStatement countStmt = connection.prepareStatement(COUNT_STUDENTS);
+	         PreparedStatement deleteStmt = connection.prepareStatement(DELETE_CLASS)) {
 
-			if (rowsAffected > 0) {
-				isvalid = true;
-				System.out.println("Xóa lớp thành công.");
-			} else {
-				isvalid = false;
-				System.out.println("Lớp không tồn tại hoặc không thể xóa.");
-			}
+	        selectStmt.setString(1, nameClass.trim());
+	        ResultSet rs = selectStmt.executeQuery();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return isvalid;
+	        String currentClassId = "";
+	        if (rs.next()) {
+	            currentClassId = rs.getString(1);
+	        }
+
+	        if (!currentClassId.isEmpty()) {
+	            countStmt.setString(1, currentClassId);
+	            ResultSet countRs = countStmt.executeQuery();
+	            int studentCount = 0;
+	            if (countRs.next()) {
+	                studentCount = countRs.getInt(1);
+	            }
+
+	            if (studentCount < 1) {
+	                deleteStmt.setString(1, currentClassId);
+	                int rowsAffected = deleteStmt.executeUpdate();
+
+	                if (rowsAffected > 0) {
+	                    isvalid = true;
+	                } else {
+	                    isvalid = false;
+	                }
+	            } else {
+	                isvalid = false;
+	            }
+	        } else {
+	            isvalid = false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return isvalid;
 	}
 
 }
